@@ -54,7 +54,7 @@ print("Generating message that transfers some amount from an out-of-shard addres
 sample_msg_tx = make_sample_tx(OUT_OF_SHARD_PRI_KEYS[0], SHARD_PARAMS['accounts']['addresses'][2], data='my sample tx'.encode('utf-8'), value=10000)
 msg = Message(shard_driver.shard.chain.get_canonical_head().hash, 10, 3, sample_msg_tx, shards[3].shard)
 print(msg)
-shard_driver.submit_msg(msg.jsonify())
+shard_driver.submit_msg(msg.serialize())
 shard_driver.shard.empty_msg_mempool()
 shard_driver.mine_next_block()
 
