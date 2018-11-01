@@ -19,9 +19,8 @@ class ShardDriver:
 
     def submit_msg(self, msg):
         assert isinstance(msg, bytes), "Expected pickled msg (bytes)"
-        msg = Message.deserialize(msg)
-        assert msg.check_validity(self.shard), "Invalid message!"
-        self.shard.submit_msg(msg)
+        msg_obj = Message.deserialize(msg)
+        self.shard.submit_msg(msg_obj)
 
     def submit_tx(self, tx):
         tx = ByzantiumTransaction.deserialize(tx)

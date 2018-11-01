@@ -20,7 +20,9 @@ class Message:
 
     @staticmethod
     def deserialize(obj):
-        return pickle.loads(obj)
+        msg = pickle.loads(obj)
+        assert isinstance(msg, Message), "deserialized object was not Message"
+        return msg
 
     def check_validity(self, shard):
         assert isinstance(self.target_shard_id, int), "Expected integer target_shard_id"
@@ -29,6 +31,7 @@ class Message:
         assert self.verify_base_in_target(shard), "Expected base in target shard"
         assert isinstance(self.TTL, int), "Expected integer TTL"
         assert isinstance(self.tx, ByzantiumTransaction), "Expected tx of type ByzantiumTransaction"
+        # TODO: Not sure if this is the right way to check signature on tx
         self.tx.check_signature_validity()
         assert self.tx.is_signature_valid, "Expected valid signature on tx"
         return True
